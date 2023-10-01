@@ -1,10 +1,11 @@
 import joblib
 import requests
 import datetime
+import time
+import re
 import random
 
-loaded_model = joblib.load("./python/random_forest_model.pkl")
-
+loaded_model = joblib.load("./python/PUBG_week_random_forest_model.pkl")
 
 while True:
     
@@ -20,7 +21,9 @@ while True:
         # Iterate through the lines and filter data for the desired title
         for line in lines:
             if 'PLAYERUNKNOWNS BATTLEGROUNDS' in line:
-               # print(line)
+                match = re.search(r'\d+$', line)
+                number = match.group()
+                print(number)
                 uio = 1
     else:
         print(f'Error: {response.status_code}')
@@ -37,20 +40,19 @@ while True:
     time_parts = formatted_time.split(":")
     hour = int(time_parts[0])
     min = int(time_parts[1])
-    sek = int(time_parts[2])
+    sec = int(time_parts[2])
 
 
-    if sek == 0 and min % 2 == 0:
+    if sec == 0 and min % 1 == 0:
         
         i = 0
-        for i in range(60):
-            new_data = [[2023, 9, day, random.randint(0, 23), i, 2017, 12, 21, 0, 1, 1, 0, 1, 0, 1]]
+        for i in range(12):
+            new_data = [[2023, month, day, hour, i]]
             predictions = loaded_model.predict(new_data)
             predictions = predictions[0]  
-            data_arr.append(predictions)
+            data_arr.append(predictions)       
 
     if len(data_arr) != 0:
         print(max(data_arr))
-        data_arr = []
-
+        time.sleep(10)
     
