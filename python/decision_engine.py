@@ -5,28 +5,15 @@ import time
 import re
 import random
 
+from Utils import prometheus_player_count_fetch, max_player_per_hour
+
 loaded_model = joblib.load("./python/PUBG_week_random_forest_model.pkl")
+server_capacit = 50000
 
 while True:
-    
-    data_arr = []
-    url = 'http://10.196.36.11/metrics'  # Replace with the URL you want to post to
-    data = {'key': 'value'}  # Replace with your data
-    response = requests.get(url, data=data)
 
-    if response.status_code == 200:
-        # Split the response content into lines
-        lines = response.text.split('\n')
-    
-        # Iterate through the lines and filter data for the desired title
-        for line in lines:
-            if 'PLAYERUNKNOWNS BATTLEGROUNDS' in line:
-                match = re.search(r'\d+$', line)
-                number = match.group()
-                print(number)
-                uio = 1
-    else:
-        print(f'Error: {response.status_code}')
+    data_arr = []
+    current_players = prometheus_player_count_fetch()
 
     current_datetime = datetime.datetime.now()
     current_time = current_datetime.time()
@@ -44,15 +31,11 @@ while True:
 
 
     if sec == 0 and min % 1 == 0:
-        
-        i = 0
-        for i in range(12):
-            new_data = [[2023, month, day, hour, i]]
-            predictions = loaded_model.predict(new_data)
-            predictions = predictions[0]  
-            data_arr.append(predictions)       
 
-    if len(data_arr) != 0:
-        print(max(data_arr))
+        print(max_player_per_hour(year, month, day, hour, loaded_model, data_arr))
+
         time.sleep(10)
+        
+   
+
     

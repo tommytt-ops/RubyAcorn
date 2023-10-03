@@ -1,13 +1,13 @@
-import datetime
- 
-current_datetime = datetime.datetime.now()
-current_time = current_datetime.time()
-formatted_time = current_time.strftime('%H:%M:%S')
+import math
 
-time_parts = formatted_time.split(":")
-hour = int(time_parts[0])
-minute = int(time_parts[1])
-sek = int(time_parts[2])
+current_player_count = 3001000
+instance_capacity = 500000
+predicted_max_hour_player_count = 2522578
 
-print(current_datetime)
-print(f"{hour} {minute} {sek}")
+player_count = predicted_max_hour_player_count / instance_capacity
+desired_isinstance = math.ceil(player_count)
+
+print(desired_isinstance)
+
+next_instance_needed = desired_isinstance * instance_capacity
+

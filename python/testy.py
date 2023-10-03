@@ -1,6 +1,7 @@
+arr = []
 
+arr.append(1)
+arr.append(2)
+arr.pop()
 
-data_arr= []
-
-if len(data_arr) != 0 :
-    print("hei")
+print(len(arr))
