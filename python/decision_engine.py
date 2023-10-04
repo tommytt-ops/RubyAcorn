@@ -11,11 +11,10 @@ from linux_scripts.linux_scripts import server_list
 
 loaded_model = joblib.load("./python/PUBG_week_random_forest_model.pkl")
 instance_capacity = 500000
+predict_max_player = 0
 
 while True:
 
-    data_arr = []
-    predict_max_player = 0
     current_players = prometheus_player_count_fetch()
 
     current_datetime = datetime.datetime.now()
@@ -36,6 +35,7 @@ while True:
 
     if sec == 0 and min % 1 == 0:
 
+        predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
         print(predict_max_player)
 
@@ -55,6 +55,7 @@ while True:
 
     elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0:
 
+        print((len(server_list("ACTIVE"))-2))
         print("NOOOOO-")
         time.sleep(10)
         
