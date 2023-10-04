@@ -40,7 +40,7 @@ def desired_instances(instance_capacity, predicted_max_hour_player_count):
     predicted_max_hour_player_count = 2522578
 
     player_count = predicted_max_hour_player_count / instance_capacity
-    desired_isinstance = math.max(math.ceil(player_count),1)
+    desired_isinstance = max(math.ceil(player_count),1)
 
     return desired_isinstance
 
