@@ -31,6 +31,7 @@ while True:
     hour = int(time_parts[0])
     min = int(time_parts[1])
     sec = int(time_parts[2])
+    print(hour)
 
 
     if sec == 0 and min % 1 == 0:
