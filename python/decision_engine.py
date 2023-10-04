@@ -31,7 +31,7 @@ while True:
     hour = int(time_parts[0])
     min = int(time_parts[1])
     sec = int(time_parts[2])
-    print(hour)
+   
 
 
     if sec == 0 and min % 1 == 0:
@@ -39,24 +39,24 @@ while True:
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
         print(predict_max_player)
 
-    if predict_max_player != 0:
+        if predict_max_player != 0:
 
-        print(predict_max_player)
-        desired_instances_to_run = desired_instances(instance_capacity, predict_max_player)
-        current_instances_running = len(server_list()) -1
-        scaler(desired_instances_to_run, current_instances_running)
+            print(predict_max_player)
+            desired_instances_to_run = desired_instances(instance_capacity, predict_max_player)
+            current_instances_running = len(server_list()) -1
+            scaler(desired_instances_to_run, current_instances_running)
 
-    if predict_max_player < int(current_players) and predict_max_player != 0:
+        if predict_max_player < int(current_players) and predict_max_player != 0:
 
-        print("NOOOOO+")
-        print(predict_max_player)
-        print(current_players)
+            print("NOOOOO+")
+            print(predict_max_player)
+            print(current_players)
 
-    if (len(server_list("RUNNING"))-2) * instance_capacity > int(current_players) and predict_max_player != 0:
+        if (len(server_list("RUNNING"))-2) * instance_capacity > int(current_players) and predict_max_player != 0:
 
-        print("NOOOOO-")
+            print("NOOOOO-")
 
-    time.sleep(10)
+        time.sleep(10)
         
    
 
