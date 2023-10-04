@@ -1,6 +1,7 @@
 import re
 import requests
-import time
+import math
+from linux_scripts.linux_scripts import start_servers, stop_servers
 
 def prometheus_player_count_fetch():
  
@@ -24,8 +25,8 @@ def prometheus_player_count_fetch():
 def max_player_per_hour(year, month, day, hour, loaded_model, data_arr):
 
     i = 0
-    for i in range(12):
-        new_data = [[year, month, day, hour, i]]
+    for i in range(11):
+        new_data = [[year, month, day, hour, i*5]]
         predictions = loaded_model.predict(new_data)
         predictions = predictions[0]  
         data_arr.append(predictions)       
@@ -33,11 +34,26 @@ def max_player_per_hour(year, month, day, hour, loaded_model, data_arr):
     if len(data_arr) != 0:
         return(max(data_arr))
 
+def desired_instances(instance_capacity, predicted_max_hour_player_count):
+    
+    instance_capacity = 500000
+    predicted_max_hour_player_count = 2522578
+
+    player_count = predicted_max_hour_player_count / instance_capacity
+    desired_isinstance = math.max(math.ceil(player_count),1)
+
+    return desired_isinstance
+
+
+
 def scaler(desiered_instance, current_instances):
-    return "later"
+    
+    if desiered_instance > current_instances:
 
-def scale_up(instance_to_run):
-    return "later"
+        start_servers(desiered_instance, current_instances)
 
-def scaler_down(instance_to_remove):
-    return "later"
+    elif desiered_instance < current_instances:
+
+        stop_servers(desiered_instance)
+    
+

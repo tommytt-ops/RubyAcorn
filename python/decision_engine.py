@@ -5,14 +5,17 @@ import time
 import re
 import random
 
-from Utils import prometheus_player_count_fetch, max_player_per_hour
+from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
+from linux_scripts.linux_scripts import server_list
+
 
 loaded_model = joblib.load("./python/PUBG_week_random_forest_model.pkl")
-server_capacit = 50000
+instance_capacity = 500000
 
 while True:
 
     data_arr = []
+    predict_max_player = 0
     current_players = prometheus_player_count_fetch()
 
     current_datetime = datetime.datetime.now()
@@ -32,9 +35,23 @@ while True:
 
     if sec == 0 and min % 1 == 0:
 
-        print(max_player_per_hour(year, month, day, hour, loaded_model, data_arr))
+        predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
 
-        time.sleep(10)
+    if predict_max_player != 0:
+
+        desired_instances_to_run = desired_instances(instance_capacity, predict_max_player)
+        current_instances_running = len(server_list()) -1
+        scaler(desired_instances_to_run, current_instances_running)
+
+    if predict_max_player < current_players:
+
+        print("NOOOOO+")
+
+    if (len(server_list())-2) * instance_capacity > current_players:
+
+        print("NOOOOO-")
+
+    time.sleep(10)
         
    
 
