@@ -62,4 +62,4 @@ def all_server_list():
     # Print the stored server information
     return server_info_list
 
-print(all_server_list())
+print(server_list("ACTIVE"))
