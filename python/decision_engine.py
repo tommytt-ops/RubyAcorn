@@ -15,6 +15,7 @@ predict_max_player = 0
 
 while True:
 
+    data_arr = []
     current_players = prometheus_player_count_fetch()
 
     current_datetime = datetime.datetime.now()
