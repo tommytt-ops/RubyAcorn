@@ -43,11 +43,13 @@ while True:
         current_instances_running = len(server_list()) -1
         scaler(desired_instances_to_run, current_instances_running)
 
-    if predict_max_player < current_players:
+    if predict_max_player < int(current_players):
 
         print("NOOOOO+")
+        print(predict_max_player)
+        print(current_players)
 
-    if (len(server_list())-2) * instance_capacity > current_players:
+    if (len(server_list())-2) * instance_capacity > int(current_players):
 
         print("NOOOOO-")
 
