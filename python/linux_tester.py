@@ -1,3 +1,3 @@
-from linux_scripts.tester import test
+from linux_scripts.linux_scripts import start_servers, stop_servers
 
-test()
+print(stop_servers(4, 6))
