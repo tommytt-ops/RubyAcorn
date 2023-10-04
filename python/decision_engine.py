@@ -44,6 +44,8 @@ while True:
             print(predict_max_player)
             desired_instances_to_run = desired_instances(instance_capacity, predict_max_player)
             current_instances_running = len(server_list("RUNNING")) -1
+            print(desired_instances_to_run)
+            print(current_instances_running)
             scaler(desired_instances_to_run, current_instances_running)
 
         elif predict_max_player < int(current_players) and predict_max_player != 0:
