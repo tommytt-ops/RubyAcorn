@@ -18,4 +18,4 @@ def stop_servers(amount, amount_unpaused):
 
     return server_to_pause
 
-print(stop_servers(2, 4))
+print(stop_servers(4, 7))

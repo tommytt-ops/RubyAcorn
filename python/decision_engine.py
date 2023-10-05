@@ -35,7 +35,7 @@ while True:
    
 
 
-    if sec == 0 and min % 1 == 0:
+    if sec == 0 and hour % 1 == 0:
 
         predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
@@ -51,7 +51,7 @@ while True:
             scaler(desired_instances_to_run, current_instances_running)
             time.sleep(10)
 
-    elif predict_max_player < int(current_players) and predict_max_player != 0:
+    elif current_instances_running * instance_capacity < int(current_players) and predict_max_player != 0:
 
         print("NOOOOO+")
         print(predict_max_player)
