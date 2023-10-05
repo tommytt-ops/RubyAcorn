@@ -35,7 +35,7 @@ while True:
    
      
 
-    if sec == 0 and hour % 1 == 0:
+    if sec == 0 and min % 1 == 0:
 
         predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
