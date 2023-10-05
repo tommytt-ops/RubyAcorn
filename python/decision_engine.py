@@ -10,7 +10,7 @@ from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_in
 from linux_scripts.linux_scripts import server_list
 
 
-loaded_model = joblib.load("./python/PUBG_week_random_forest_model")
+loaded_model = joblib.load("./python/PUBG_week_random_forest_model.pkl")
 instance_capacity = 500000
 predict_max_player = 0
 
