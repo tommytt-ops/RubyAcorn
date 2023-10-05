@@ -46,9 +46,9 @@ while True:
 
             desired_instances_to_run = desired_instances(instance_capacity, predict_max_player)
             current_instances_running = len(server_list("ACTIVE")) -1
-            scaler(desired_instances_to_run, current_instances_running)
             print(desired_instances_to_run)
             print(current_players)
+            scaler(desired_instances_to_run, current_instances_running)
             time.sleep(10)
 
     elif predict_max_player < int(current_players) and predict_max_player != 0:
