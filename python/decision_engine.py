@@ -64,7 +64,7 @@ while True:
         print("NOOOOO-")
         print(current_players)
     
-    time.sleep(10)
+    
         
    
 
