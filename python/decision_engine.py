@@ -51,7 +51,7 @@ while True:
             scaler(desired_instances_to_run, current_instances_running)
             time.sleep(10)
 
-    elif current_instances_running * instance_capacity < int(current_players) and predict_max_player != 0:
+    elif len(server_list("ACTIVE")) * instance_capacity < int(current_players) and predict_max_player != 0:
 
         print("NOOOOO+")
         print(predict_max_player)
