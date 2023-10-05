@@ -33,7 +33,7 @@ while True:
     min = int(time_parts[1])
     sec = int(time_parts[2])
    
-
+     
 
     if sec == 0 and hour % 1 == 0:
 
@@ -50,8 +50,10 @@ while True:
             print(desired_instances_to_run)
             print(current_players)
             scaler(desired_instances_to_run, current_instances_running)
+            print("Max player cap: ",len(server_list("ACTIVE")) * instance_capacity)
             time.sleep(10)
 
+   
     elif len(server_list("ACTIVE")) * instance_capacity < int(current_players) and predict_max_player != 0:
 
         print("NOOOOO+")
