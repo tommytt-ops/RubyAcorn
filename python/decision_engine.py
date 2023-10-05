@@ -58,6 +58,7 @@ while True:
         print("NOOOOO+")
         print(predict_max_player)
         print(current_players)
+        print("")
         
 
     elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0:
@@ -66,6 +67,7 @@ while True:
         print("NOOOOO-")
         print(predict_max_player)
         print(current_players)
+        print("")
     
     
         
