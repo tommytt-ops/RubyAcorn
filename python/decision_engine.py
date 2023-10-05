@@ -53,14 +53,14 @@ while True:
             time.sleep(10)
 
    
-    elif (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min % 5 == 0 and min != 0:
+    elif (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0:
 
         print("NOOOOO+")
         print(predict_max_player)
         print(current_players)
         
 
-    elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0 and min % 5 == 0 and min != 0:
+    elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0:
 
      
         print("NOOOOO-")
