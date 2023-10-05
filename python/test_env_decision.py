@@ -10,7 +10,7 @@ from linux_scripts.linux_scripts import server_list
 
 
 loaded_model = joblib.load("./python/PUBG_week_random_forest_model.pkl")
-loaded_model2 = joblib.load("./python/PUBG_week_reg.pkl")
+#loaded_model2 = joblib.load("./python/PUBG_week_reg.pkl")
 instance_capacity = 500000
 predict_max_player = 0
 
@@ -39,8 +39,6 @@ while True:
 
         predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
-        predict_max_player_reg = max_player_per_hour(year, month, day, hour, loaded_model2, data_arr)
-        print("reg: ",predict_max_player_reg)
         print("forest: ",predict_max_player)
         print(current_players)
         time.sleep(10)
