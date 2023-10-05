@@ -50,21 +50,21 @@ while True:
             print(desired_instances_to_run)
             print(current_players)
             scaler(desired_instances_to_run, current_instances_running)
-            print("Max player cap: ",len(server_list("ACTIVE")) * instance_capacity)
             time.sleep(10)
 
    
-    elif len(server_list("ACTIVE")) * instance_capacity < int(current_players) and predict_max_player != 0:
+    elif len(server_list("ACTIVE")-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min % 5 == 0 and min != 0:
 
         print("NOOOOO+")
         print(predict_max_player)
         print(current_players)
         
 
-    elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0:
+    elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0 and min % 5 == 0 and min != 0:
 
-        print((len(server_list("ACTIVE"))-2))
+     
         print("NOOOOO-")
+        print(predict_max_player)
         print(current_players)
     
     
