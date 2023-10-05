@@ -40,6 +40,7 @@ while True:
         predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
         print(predict_max_player)
+        print(current_players)
 
         if predict_max_player != 0:
 
