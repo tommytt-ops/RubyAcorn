@@ -91,16 +91,12 @@ def stop_servers(amount, amount_unpaused):
     amount_to_pause = amount_unpaused - amount
     server_to_pause ="openstack server pause "
 
-    for i  in range(amount_to_pause):
+    for i  in range(amount_to_pause+1, amount_unpaused+1):
 
         print(i)
-
         string ="Server"
-        num = amount_unpaused - i
-
-        server_name = string + str(num)+" "
-
-        server_to_start += server_name
+        server_name = string + str(i)+" "
+        server_to_pause += server_name
 
 
     try:
@@ -110,7 +106,7 @@ def stop_servers(amount, amount_unpaused):
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
     
-    return server_to_start
+    return server_to_pause
 
 
 
