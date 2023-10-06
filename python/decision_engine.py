@@ -10,7 +10,7 @@ from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_in
 from linux_scripts.linux_scripts import server_list
 
 
-loaded_model = joblib.load("./python/PUBG_week_random_forest_model.pkl")
+loaded_model = joblib.load("./python/PUBG_week_reg.pkl")
 instance_capacity = 500000
 predict_max_player = 0
 
@@ -35,7 +35,7 @@ while True:
    
      
 
-    if sec == 0 and min % 1 == 0:
+    if sec == 0 and min == 0:
 
         predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
@@ -53,7 +53,7 @@ while True:
             time.sleep(10)
 
    
-    elif (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0:
+    elif (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
 
         print("NOOOOO+")
         print(predict_max_player)
@@ -61,7 +61,7 @@ while True:
         print("")
         
 
-    elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0:
+    elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
 
      
         print("NOOOOO-")
