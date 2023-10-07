@@ -9,8 +9,8 @@ import random
 from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
 
-
-loaded_model = joblib.load("./python/PUBG_week_reg.pkl")
+loaded_model = xgboost.Booster()
+loaded_model.load_model("./python/reg_model.json")
 instance_capacity = 500000
 predict_max_player = 0
 
