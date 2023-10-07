@@ -37,8 +37,10 @@ while True:
 
         predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
+        desired_instances(instance_capacity, predict_max_player)
         print(f"{hour}:{min}")
         print("predicted: ", predict_max_player)
         print("current players: ",current_players)
+        print("given servers: ", desired_instances)
         print("")
         time.sleep(10)
