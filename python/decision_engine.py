@@ -10,7 +10,7 @@ import random
 from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
 
-loaded_model = xgboost.Booster()
+loaded_model = xgboost.Booster('PLAYERUNKNOWNS BATTLEGROUNDS')
 loaded_model.load_model("./python/reg_model.json")
 instance_capacity = 500000
 predict_max_player = 0
@@ -40,6 +40,7 @@ while True:
 
         predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
+        print(hour)
         print("predicted: ", predict_max_player)
         print("current players: ",current_players)
         print("")
@@ -51,24 +52,25 @@ while True:
             print(desired_instances_to_run)
             print(current_players)
             scaler(desired_instances_to_run, current_instances_running)
+            print("given servers: ",  desired_instances(instance_capacity, predict_max_player))
+            print("")
             time.sleep(10)
 
    
     elif (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
 
-        print("NOOOOO+")
-        print(predict_max_player)
-        print(current_players)
-        print("")
+        print(f"{hour}:{min}")
+        desired_instances_to_run = desired_instances(instance_capacity, current_players)
+        current_instances_running = len(server_list("ACTIVE")) -1
+        scaler(desired_instances_to_run, current_instances_running)
         
 
     elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
-
      
-        print("NOOOOO-")
-        print(predict_max_player)
-        print(current_players)
-        print("")
+        print(f"{hour}:{min}")
+        desired_instances_to_run = desired_instances(instance_capacity, current_players)
+        current_instances_running = len(server_list("ACTIVE")) -1
+        scaler(desired_instances_to_run, current_instances_running)
     
     
         

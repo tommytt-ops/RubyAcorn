@@ -6,7 +6,7 @@ import numpy
 import pandas
 from linux_scripts.linux_scripts import start_servers, stop_servers
 
-def prometheus_player_count_fetch():
+def prometheus_player_count_fetch(game_title):
  
     url = 'http://10.196.36.11/metrics'  # Replace with the URL you want to post to
     data = {'key': 'value'}  # Replace with your data
@@ -18,7 +18,7 @@ def prometheus_player_count_fetch():
     
         # Iterate through the lines and filter data for the desired title
         for line in lines:
-            if 'PLAYERUNKNOWNS BATTLEGROUNDS' in line:
+            if game_title in line:
                 match = re.search(r'\d+$', line)
                 number = match.group()
                 return number
