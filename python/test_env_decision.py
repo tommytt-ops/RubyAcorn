@@ -17,7 +17,7 @@ predict_max_player = 0
 while True:
 
     data_arr = []
-    current_players = prometheus_player_count_fetch()
+    current_players = prometheus_player_count_fetch("PLAYERUNKNOWNS BATTLEGROUNDS")
 
     current_datetime = datetime.datetime.now()
     current_time = current_datetime.time()
@@ -33,7 +33,7 @@ while True:
     min = int(time_parts[1])
     sec = int(time_parts[2])
 
-    if sec == 0 and min == 0:
+    if sec == 0 and min % 1 == 0:
 
         predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)

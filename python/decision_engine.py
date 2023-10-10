@@ -18,7 +18,7 @@ predict_max_player = 0
 while True:
 
     data_arr = []
-    current_players = prometheus_player_count_fetch()
+    current_players = prometheus_player_count_fetch("PLAYERUNKNOWNS BATTLEGROUNDS")
 
     current_datetime = datetime.datetime.now()
     current_time = current_datetime.time()
