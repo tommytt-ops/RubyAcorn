@@ -64,7 +64,7 @@ while True:
             print(predict_max_player)
             print(current_players)
             print("")
-            desired_instances_to_run = desired_instances(instance_capacity, current_players)
+            desired_instances_to_run = desired_instances(instance_capacity, int(current_players))
             current_instances_running = len(server_list("ACTIVE")) -1
             scaler(desired_instances_to_run, current_instances_running)
         
@@ -75,7 +75,7 @@ while True:
             print(predict_max_player)
             print(current_players)
             print("")
-            desired_instances_to_run = desired_instances(instance_capacity, current_players)
+            desired_instances_to_run = desired_instances(instance_capacity, int(current_players))
             current_instances_running = len(server_list("ACTIVE")) -1
             scaler(desired_instances_to_run, current_instances_running)
     
