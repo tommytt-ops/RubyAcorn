@@ -60,6 +60,9 @@ while True:
     elif (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
 
         print(f"{hour}:{min}")
+        print(predict_max_player)
+        print(current_players)
+        print("")
         desired_instances_to_run = desired_instances(instance_capacity, current_players)
         current_instances_running = len(server_list("ACTIVE")) -1
         scaler(desired_instances_to_run, current_instances_running)
@@ -68,6 +71,9 @@ while True:
     elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
      
         print(f"{hour}:{min}")
+        print(predict_max_player)
+        print(current_players)
+        print("")
         desired_instances_to_run = desired_instances(instance_capacity, current_players)
         current_instances_running = len(server_list("ACTIVE")) -1
         scaler(desired_instances_to_run, current_instances_running)
