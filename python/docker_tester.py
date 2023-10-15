@@ -1,7 +1,7 @@
 import docker
 
 # Initialize the Docker client for the Swarm
-client = docker.DockerClient(base_url='tcp://<Swarm-Manager-IP>:<Swarm-Manager-Port>')
+client = docker.from_env()
 
 # Specify the service name you want to update
 service_name = 'my_service'
