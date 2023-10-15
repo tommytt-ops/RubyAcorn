@@ -74,9 +74,6 @@ def start_servers(amount, amount_unpaused):
         server_name = string + str(num)+" "
         server_to_start += server_name
 
-    print(amount)
-    print(amount_unpaused)
-
     try:
         # Run the command
         subprocess.run(server_to_start, shell=True, check=True)
