@@ -57,6 +57,6 @@ def scaler(desiered_instance, current_instances):
 
     elif desiered_instance < current_instances:
 
-        stop_servers(desiered_instance)
+        stop_servers(desiered_instance, current_instances)
     
 

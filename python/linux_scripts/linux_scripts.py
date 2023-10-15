@@ -77,7 +77,6 @@ def start_servers(amount, amount_unpaused):
     try:
         # Run the command
         subprocess.run(server_to_start, shell=True, check=True)
-        print("success")
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
     
@@ -90,7 +89,6 @@ def stop_servers(amount, amount_unpaused):
 
     for i  in range(amount_to_pause+1, amount_unpaused+1):
 
-        print(i)
         string ="Server"
         server_name = string + str(i)+" "
         server_to_pause += server_name
@@ -99,7 +97,6 @@ def stop_servers(amount, amount_unpaused):
     try:
         # Run the command
         subprocess.run(server_to_pause, shell=True, check=True)
-        print("success")
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
     
