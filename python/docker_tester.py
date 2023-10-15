@@ -1,18 +1,20 @@
 import docker
 
 # Initialize the Docker client for the Swarm
-client = docker.from_env()
+client = docker.DockerClient(base_url='tcp://<Swarm-Manager-IP>:<Swarm-Manager-Port>')
 
-# Define the container configuration
-container_config = {
-    'image': 'busybox',
-    'command': 'sleep 3600',  # Command to keep the container running
-}
+# Specify the service name you want to update
+service_name = 'my_service'
 
-# Number of containers you want to run
-num_containers = 50
+# Specify the new number of replicas you want
+new_num_replicas = 3
 
-# Create the specified number of containers in the Swarm
-for i in range(num_containers):
-    service = client.services.create(**container_config)
-    print(f'Container service started with ID {service.id}')
+# Get the existing service
+service = client.services.get(service_name)
+
+# Update the service with the new number of replicas
+service.update(mode=docker.types.ServiceMode(replicated=docker.types.ReplicatedMode(
+    replicas=new_num_replicas
+)))
+
+print(f'Service "{service_name}" updated to have {new_num_replicas} replicas.')
