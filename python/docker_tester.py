@@ -7,7 +7,6 @@ client = docker.from_env()
 container_config = {
     'image': 'busybox',
     'command': 'sleep 3600',  # Command to keep the container running
-    'detach': True,
 }
 
 # Number of containers you want to run
