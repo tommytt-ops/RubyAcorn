@@ -2,7 +2,7 @@ import docker
 
 client = docker.from_env()
 
-# Define the container configuration
+# Define the container configurations
 container_config = {
     'image': 'nginx',  # Replace with the desired Docker image
 }
