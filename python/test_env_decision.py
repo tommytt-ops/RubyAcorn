@@ -1,17 +1,16 @@
-import joblib
-import requests
+
 import datetime
 import time
-import re
-import random
 import xgboost
 
 from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
+from docker_tester import docker_instance
 
 loaded_model = xgboost.Booster()
 loaded_model.load_model("./python/reg_model.json")
 instance_capacity = 500000
+docker_instance_capacity = 21500
 predict_max_player = 0
 
 while True:
@@ -42,5 +41,7 @@ while True:
         print("predicted: ", predict_max_player)
         print("current players: ",current_players)
         print("given servers: ",  desired_instances(instance_capacity, predict_max_player))
+        docker_instance(predict_max_player, docker_instance_capacity)
         print("")
+
         time.sleep(10)
