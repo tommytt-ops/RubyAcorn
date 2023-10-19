@@ -54,7 +54,7 @@ while True:
             print("")
             time.sleep(60)
 
-    if current_players is not None:
+    if current_players is not None and predict_max_player != 0:
    
         if (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
 
