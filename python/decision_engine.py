@@ -1,18 +1,15 @@
-import joblib
-import requests
+
 import datetime
 import time
 import xgboost
-import re
-import random
-
-
+from docker_tester import docker_instance
 from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
 
 loaded_model = xgboost.Booster()
 loaded_model.load_model("./python/reg_model.json")
 instance_capacity = 500000
+docker_instance_capacity = 21500
 predict_max_player = 0
 
 while True:
@@ -53,8 +50,9 @@ while True:
             print(current_players)
             scaler(desired_instances_to_run, current_instances_running)
             print("given servers: ",  desired_instances(instance_capacity, predict_max_player))
+            docker_instance(predict_max_player, docker_instance_capacity)
             print("")
-            time.sleep(10)
+            time.sleep(60)
 
     if current_players is not None:
    
@@ -68,10 +66,11 @@ while True:
             desired_instances_to_run = desired_instances(instance_capacity, int(current_players))
             current_instances_running = len(server_list("ACTIVE")) -1
             scaler(desired_instances_to_run, current_instances_running)
+            time.sleep(60)
         
 
 
-        #Cant handle faulty player count
+        #Doesnt fit the goal of the algorithm 
         #elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
             
             #print("need fewer servers")
