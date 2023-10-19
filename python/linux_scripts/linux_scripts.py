@@ -102,7 +102,7 @@ def stop_servers(amount, amount_unpaused):
     
     return server_to_pause
 
-print(all_server_list())
+
 
 
 
