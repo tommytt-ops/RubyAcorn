@@ -4,9 +4,8 @@ import time
 import xgboost
 from docker_tester import docker_instance
 from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
-from linux_scripts.linux_scripts import server_list, app_cred
+from linux_scripts.linux_scripts import server_list, 
 
-app_cred()
 loaded_model = xgboost.Booster()
 loaded_model.load_model("./python/reg_model.json")
 instance_capacity = 500000
