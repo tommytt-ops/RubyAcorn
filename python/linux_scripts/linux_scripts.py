@@ -102,6 +102,19 @@ def stop_servers(amount, amount_unpaused):
     
     return server_to_pause
 
+def app_cred():
+
+    command = 'source app-cred-api_access-openrc.sh'
+
+    try:
+        # Run the command in a subshell
+        subprocess.run(command, shell=True, check=True)
+        print("Command executed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error running the command: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
 
 
 
