@@ -1,3 +1,4 @@
-import math
+import subprocess
 
-print(math.ceil(3000000/21500))
+command = "openstack server list"
+subprocess.run(command, shell=True)
