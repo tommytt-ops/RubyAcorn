@@ -5,18 +5,6 @@ import xgboost
 from docker_tester import docker_instance
 from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
-import os
-
-# Specify the relative path to your OpenRC file
-relative_path = "/path/to/app-cred-api_access-openrc.sh"
-
-# Get the absolute path by joining the current working directory and the relative path
-absolute_path = os.path.join(os.getcwd(), relative_path)
-
-# Now you can use the absolute path with os.system
-command = f"source {absolute_path}"
-os.system(command)
-
 
 loaded_model = xgboost.Booster()
 loaded_model.load_model("./python/reg_model.json")
