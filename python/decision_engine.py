@@ -62,6 +62,7 @@ while True:
             print(predict_max_player)
             print(current_players)
             print("")
+            docker_instance(current_players, docker_instance_capacity)
             desired_instances_to_run = desired_instances(instance_capacity, int(current_players))
             current_instances_running = len(server_list("ACTIVE")) -1
             scaler(desired_instances_to_run, current_instances_running)
