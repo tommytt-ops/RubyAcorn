@@ -33,9 +33,8 @@ while True:
    
      
 
-    if  sec == 0:
+    if  min == 0:
 
-        predict_max_player = 0
         predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
         print(hour)
         print("predicted: ", predict_max_player)
