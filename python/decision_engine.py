@@ -15,7 +15,7 @@ predict_max_player = 0
 while True:
 
     data_arr = []
-    current_players = int(prometheus_player_count_fetch("PLAYERUNKNOWNS BATTLEGROUNDS"))
+    current_players = prometheus_player_count_fetch("PLAYERUNKNOWNS BATTLEGROUNDS")
 
     current_datetime = datetime.datetime.now()
     current_time = current_datetime.time()
@@ -55,7 +55,7 @@ while True:
 
     if current_players is not None:
    
-        if (len(server_list("ACTIVE"))-1) * instance_capacity < current_players and predict_max_player != 0 and min != 0 and min % 5 == 0:
+        if (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
 
             print("need more servers")
             print(f"{hour}:{min}")
@@ -70,7 +70,8 @@ while True:
 
         if predict_max_player != 0 and current_players > int(get_replica_count()) * docker_instance_capacity:
 
-            docker_instance(current_players, docker_instance_capacity)
+            print("scaling docker instances")
+            docker_instance(int(current_players), docker_instance_capacity)
     
 
 
