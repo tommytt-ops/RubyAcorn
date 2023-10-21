@@ -2,7 +2,7 @@
 import datetime
 import time
 import xgboost
-from docker_tester import docker_instance
+from docker_tester import docker_instance, get_replica_count
 from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
 
@@ -68,7 +68,9 @@ while True:
             scaler(desired_instances_to_run, current_instances_running)
             time.sleep(60)
 
-        if predict_max_player != 0 and current_players > predict_max_player:
+        if predict_max_player != 0 and current_players > int(get_replica_count()) * docker_instance_capacity:
+
+            docker_instance(current_players, docker_instance_capacity)
     
 
 
