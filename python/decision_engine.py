@@ -55,7 +55,7 @@ while True:
 
     if current_players is not None:
    
-        if (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
+        if (len(server_list("ACTIVE"))-1) * instance_capacity < current_players and predict_max_player != 0 and min != 0 and min % 5 == 0:
 
             print("need more servers")
             print(f"{hour}:{min}")
@@ -67,7 +67,9 @@ while True:
             current_instances_running = len(server_list("ACTIVE")) -1
             scaler(desired_instances_to_run, current_instances_running)
             time.sleep(60)
-        
+
+        if predict_max_player != 0 and current_players > predict_max_player:
+    
 
 
         #Doesnt fit the goal of the algorithm 
