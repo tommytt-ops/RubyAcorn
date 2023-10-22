@@ -68,7 +68,7 @@ while True:
             scaler(desired_instances_to_run, current_instances_running)
             time.sleep(60)
 
-        if predict_max_player != 0 and current_players > int(get_replica_count()) * docker_instance_capacity:
+        if predict_max_player != 0 and int(current_players) > int(get_replica_count()) * docker_instance_capacity:
 
             print("scaling docker instances")
             docker_instance(int(current_players), docker_instance_capacity)
