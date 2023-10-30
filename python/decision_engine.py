@@ -55,7 +55,7 @@ while True:
 
     if current_players is not None:
    
-        if (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
+        if (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0 and min != 5:
 
             print("need more servers")
             print(f"{hour}:{min}")
