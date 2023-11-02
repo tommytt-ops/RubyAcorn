@@ -7,6 +7,7 @@ antall_replica_metric = Gauge('antall_replica', 'Description of antall_replica',
 start_http_server(8000)
 
 def test():
+
     antall_server = 1.0
     antall_replica = 2.0
 
@@ -15,4 +16,3 @@ def test():
 
 while True:
     test()
-    time.sleep(60)
