@@ -63,7 +63,7 @@ while True:
 
         running_server = len(server_list("ACTIVE"))-1
         running_replicas = get_replica_count("PLAYERUNKNOWNS_BATTLEGROUNDS")
-        prom_metrics(running_server, running_replicas, antall_server_metric_prom, antall_replica_metric_prom, "PLAYERUNKNOWNS_BATTLEGROUNDS")
+        prom_metrics(running_server, running_replicas, antall_server_metric_prom, antall_replica_metric_prom, "PLAYERUNKNOWNS BATTLEGROUNDS")
 
 
     if current_players is not None:
