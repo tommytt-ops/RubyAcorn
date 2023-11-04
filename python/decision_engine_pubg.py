@@ -55,15 +55,15 @@ while True:
             print(current_players)
             scaler(desired_instances_to_run, current_instances_running)
             print("given servers: ",  desired_instances(instance_capacity, predict_max_player))
-            docker_instance(predict_max_player, docker_instance_capacity, "PLAYERUNKNOWNS BATTLEGROUNDS")
+            docker_instance(predict_max_player, docker_instance_capacity, "PLAYERUNKNOWNS_BATTLEGROUNDS")
             print("")
             time.sleep(60)
 
     if min % 5 == 0:
 
         running_server = len(server_list("ACTIVE"))-1
-        running_replicas = get_replica_count("PLAYERUNKNOWNS BATTLEGROUNDS")
-        prom_metrics(running_server, running_replicas, antall_server_metric_prom, antall_replica_metric_prom, "PLAYERUNKNOWNS BATTLEGROUNDS")
+        running_replicas = get_replica_count("PLAYERUNKNOWNS_BATTLEGROUNDS")
+        prom_metrics(running_server, running_replicas, antall_server_metric_prom, antall_replica_metric_prom, "PLAYERUNKNOWNS_BATTLEGROUNDS")
 
 
     if current_players is not None:
@@ -84,7 +84,7 @@ while True:
         if predict_max_player != 0 and int(current_players) > int(get_replica_count()) * docker_instance_capacity:
 
             print("scaling docker instances")
-            docker_instance(int(current_players), docker_instance_capacity, "PLAYERUNKNOWNS BATTLEGROUNDS")
+            docker_instance(int(current_players), docker_instance_capacity, "PLAYERUNKNOWNS_BATTLEGROUNDS")
     
 
 
