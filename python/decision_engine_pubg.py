@@ -5,7 +5,7 @@ import xgboost
 from docker_tester import docker_instance, get_replica_count
 from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
-from python.prom_metrics_ import prom_metrics
+from prom_metrics_ import prom_metrics
 
 loaded_model = xgboost.Booster()
 loaded_model.load_model("./python/reg_model.json")
