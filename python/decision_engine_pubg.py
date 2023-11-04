@@ -16,7 +16,7 @@ predict_max_player = 0
 antall_server_metric_prom = Gauge('antall_server_pubg', 'Description of antall_server', ['title'])
 antall_replica_metric_prom = Gauge('antall_replica_pubg', 'Description of antall_replica', ['title'])
 
-start_http_server(8000)
+start_http_server(8001)
 
 while True:
 
