@@ -9,12 +9,14 @@ container_config = {
 
 # Define service options
 
-def service_options():
+def service_options(name):
     service_options = {
-        'name': 'PLAYERUNKNOWNS_BATTLEGROUNDS',  # Specify the service name
+        'name': name,  # Specify the service name
         'mode': docker.types.ServiceMode('replicated', replicas=3),  # Set the service mode and number of replicas
         'constraints': ['node.role != manager'],
     }
+
+    return service_options
 
 
 game_names = [
