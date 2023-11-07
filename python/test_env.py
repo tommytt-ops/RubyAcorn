@@ -50,7 +50,6 @@ game_names = [
     "Counter-Strike",
     "Counter-Strike: Source",
     "Counter-Strike: Condition Zero Deleted Scenes",
-    "Counter-Strike: Source",
     "Source Filmmaker",
     "Team_Fortress_Classic",
     "Half-Life 2",

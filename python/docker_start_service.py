@@ -21,7 +21,6 @@ game_names = [
     "counter_strike",
     "counter_strike_source",
     "counter_strike_condition_zero_deleted_scenes",
-    "Counter-Strike:_Source",
     "source_filmmaker",
     "team_fortress_classic",
     "half_life_2",
