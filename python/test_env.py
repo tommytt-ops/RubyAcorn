@@ -72,7 +72,7 @@ game_names = [
     "Dota 2"
 ]
 
-start_http_server(8001)
+start_http_server(8002)
 
 
 while True:
