@@ -2,7 +2,6 @@ import re
 import requests
 import math
 import xgboost
-import numpy
 import pandas
 from linux_scripts.linux_scripts import start_servers, stop_servers
 
