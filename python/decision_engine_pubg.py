@@ -3,7 +3,7 @@ import datetime
 import time
 import xgboost
 from docker_tester import docker_instance, get_replica_count
-from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
+from utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
 from prom_metrics_ import prom_metrics
 
@@ -57,13 +57,13 @@ while True:
             print("given servers: ",  desired_instances(instance_capacity, predict_max_player))
             docker_instance(predict_max_player, docker_instance_capacity, "PLAYERUNKNOWNS_BATTLEGROUNDS")
             print("")
-            time.sleep(60)
 
     if min % 5 == 0:
 
         running_server = len(server_list("ACTIVE"))-1
+        prom_metrics(running_server, antall_server_metric_prom, "PLAYERUNKNOWNS BATTLEGROUNDS")
         running_replicas = get_replica_count("PLAYERUNKNOWNS_BATTLEGROUNDS")
-        prom_metrics(running_server, running_replicas, antall_server_metric_prom, antall_replica_metric_prom, "PLAYERUNKNOWNS BATTLEGROUNDS")
+        prom_metrics(running_replicas, antall_replica_metric_prom, "PLAYERUNKNOWNS BATTLEGROUNDS")
 
 
     if current_players is not None:
