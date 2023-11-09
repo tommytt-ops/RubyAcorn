@@ -85,7 +85,7 @@ async def main():
     loaded_model.load_model("./python/reg_model_valve.json")
     data_arr = []
 
-    prom_counter_strike = Gauge("prom_counter_strike", " ", ["title"])
+    prom_counter_strike = Gauge("prom_counter_strike", "Description of the metric", ["title"])
     prom_counter_strike_source = Gauge("prom_counter_strike_source", ["title"])
     prom_counter_strike_condition_zero_deleted_scenes = Gauge("prom_counter_strike_condition_zero_deleted_scenes", ["title"])
     prom_source_filmmaker = Gauge("antall_instance_valve", ["title"])
