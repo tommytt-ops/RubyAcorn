@@ -85,30 +85,7 @@ async def main():
     loaded_model.load_model("./python/reg_model_valve.json")
     data_arr = []
 
-    prom_counter_strike = Gauge("prom_counter_strike", "Description of the metric", ["title"])
-    prom_counter_strike_source = Gauge("prom_counter_strike_source", "Description of the metric", ["title"])
-    prom_counter_strike_condition_zero_deleted_scenes = Gauge("prom_counter_strike_condition_zero_deleted_scenes", "Description of the metric", ["title"])
-    prom_source_filmmaker = Gauge("antall_instance_valve", "Description of the metric", ["title"])
-    prom_team_fortress_classic = Gauge("prom_source_filmmaker", "Description of the metric", ["title"])
-    prom_half_life_2 = Gauge("prom_half_life_2", "Description of the metric", ["title"])
-    prom_half_life_source = Gauge("prom_half_life_source", "Description of the metric", ["title"])
-    prom_day_of_defeat = Gauge("prom_day_of_defeat", "Description of the metric", ["title"])
-    prom_day_of_defeat_source = Gauge("prom_day_of_defeat_source", "Description of the metric", ["title"])
-    prom_half_life_2_deathmatch = Gauge("prom_half_life_2_deathmatch", "Description of the metric", ["title"])
-    prom_half_life_2_episode_one = Gauge("prom_half_life_2_episode_one", "Description of the metric", ["title"])
-    prom_portal = Gauge("prom_portal", "Description of the metric", ["title"])
-    prom_half_life_2_episode_two = Gauge("prom_half_life_2_episode_two", "Description of the metric", ["title"])
-    prom_team_fortress_2 = Gauge("prom_team_fortress_2", "Description of the metric", ["title"])
-    prom_the_lab = Gauge("prom_the_lab", "Description of the metric", ["title"])
-    prom_left_4_dead = Gauge("prom_left_4_dead", "Description of the metric", ["title"])
-    prom_left_4_dead_2 = Gauge("prom_left_4_dead_2", "Description of the metric", ["title"])
-    prom_portal_2 = Gauge("prom_portal_2", "Description of the metric", ["title"])
-    prom_alien_swarm = Gauge("prom_alien_swarm", "Description of the metric", ["title"])
-    prom_half_life = Gauge("prom_half_life", "Description of the metric", ["title"])
-    prom_counter_strike_global_offensive = Gauge("prom_counter_strike_global_offensive", "Description of the metric", ["title"])
-    prom_counter_strike_condition_zero = Gauge("prom_counter_strike_condition_zero", "Description of the metric",["title"])
-    prom_dota_2 = Gauge("prom_dota_2", "Description of the metric", ["title"])
-
+    player_count_valve = Gauge("player_count_valve", "Description of the metric", ["title"])
 
     while True:
         current_datetime = datetime.datetime.now()
@@ -148,7 +125,7 @@ async def main():
             if math.ceil(int(current_players["Counter-Strike"])/docker_instance_capacity) != get_replica_count("counter_strike"):
                 print(int(current_players["Counter-Strike"]))
                 docker_instance(int(current_players["Counter-Strike"]), docker_instance_capacity, "counter_strike")
-            await prom_metrics(get_replica_count("counter_strike"), prom_counter_strike, "counter_strike")
+            await prom_metrics(get_replica_count("counter_strike"), player_count_valve, "counter_strike")
             time.sleep(60)
 
 
