@@ -125,7 +125,7 @@ async def main():
             if math.ceil(int(current_players["Counter-Strike"])/docker_instance_capacity) != get_replica_count("counter_strike"):
                 print(int(current_players["Counter-Strike"]))
                 docker_instance(int(current_players["Counter-Strike"]), docker_instance_capacity, "counter_strike")
-            await prom_metrics(get_replica_count("counter_strike"), player_count_valve, "counter_strike")
+            await prom_metrics(get_replica_count("counter_strike"), player_count_valve, "Counter-Strike")
             time.sleep(60)
 
 
