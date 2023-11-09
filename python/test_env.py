@@ -149,6 +149,7 @@ async def main():
                 print(int(current_players["Counter-Strike"]))
                 docker_instance(int(current_players["Counter-Strike"]), docker_instance_capacity, "counter_strike")
             await prom_metrics(get_replica_count("counter_strike"), prom_counter_strike, "counter_strike")
+            time.sleep(60)
 
 
             
