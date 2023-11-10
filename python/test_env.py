@@ -142,8 +142,8 @@ async def process_game_async(game_name, service_name, current_player_count, dock
     ):
         print(f"{game_name}: {current_player_count}")
         await docker_instance_async(current_player_count, docker_instance_capacity, service_name)
-
-    await prom_metrics(get_replica_count_async(service_name), player_count_valve, game_name)
+    replica_count = await get_replica_count_async(service_name)
+    await prom_metrics(replica_count, player_count_valve, game_name)
 
 
 
