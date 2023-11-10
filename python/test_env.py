@@ -4,7 +4,7 @@ import time
 import xgboost
 import math
 from docker_tester import docker_instance, get_replica_count
-from utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
+from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
 from prom_metrics_ import prom_metrics
 import asyncio
@@ -81,7 +81,7 @@ async def main():
 
     predict_max_player_valve = 0
     instance_capacity = 250000
-    docker_instance_capacity = 1000
+    docker_instance_capacity = 10000
     loaded_model = xgboost.Booster()
     loaded_model.load_model("./python/reg_model_valve.json")
     data_arr = []
