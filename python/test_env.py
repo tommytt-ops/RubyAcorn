@@ -129,10 +129,9 @@ async def main():
         if current_players_all != 0 and min % 5 == 0:
             # Use asyncio.gather for concurrent operations
             await asyncio.gather(*[
-                process_game_async(game_name, service_name, current_players[game_name], docker_instance_capacity, player_count_valve)
+                loop.create_task(process_game_async(game_name, service_name, current_players[game_name], docker_instance_capacity, player_count_valve))
                 for game_name, service_name in game_service_dict.items()
             ])
-
         await asyncio.sleep(60)
 
 async def process_game_async(game_name, service_name, current_player_count, docker_instance_capacity, player_count_valve):
