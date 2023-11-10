@@ -54,7 +54,7 @@ game_service_dict = {
     "Counter-Strike: Source": "counter_strike_source", 
     "Counter-Strike: Condition Zero Deleted Scenes": "counter_strike_condition_zero_deleted_scenes",
     "Source Filmmaker": "source_filmmaker" , 
-    "Team_Fortress_Classic": "team_fortress_classic", 
+    "Team Fortress Classic": "team_fortress_classic", 
     "Half-Life 2": "half_life_2", 
     "Half-Life: Source": "half_life_source", 
     "Day of Defeat": "day_of_defeat",
