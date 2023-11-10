@@ -7,7 +7,7 @@ import docker
 import asyncio
 
 
-async def max_player_per_hour(year, month, day, hour, loaded_model, data_arr):
+async def max_player_per_hour_async(year, month, day, hour, loaded_model, data_arr):
     i = 0
     model = loaded_model
     for i in range(59):
@@ -20,7 +20,7 @@ async def max_player_per_hour(year, month, day, hour, loaded_model, data_arr):
     if len(data_arr) != 0:
         return max(data_arr)
 
-async def desired_instances(instance_capacity, predicted_max_hour_player_count):
+async def desired_instances_async(instance_capacity, predicted_max_hour_player_count):
     player_count = predicted_max_hour_player_count / instance_capacity
     desired_instance = max(math.ceil(player_count), 1)
     return desired_instance
@@ -31,7 +31,7 @@ async def scaler(desired_instance, current_instances):
     elif desired_instance < current_instances:
         await stop_servers(desired_instance, current_instances)
 
-async def docker_instance(player_count, instance_capacity, game_title):
+async def docker_instance_async(player_count, instance_capacity, game_title):
     client = docker.from_env()
 
     # Specify the new number of replicas you want
@@ -44,7 +44,7 @@ async def docker_instance(player_count, instance_capacity, game_title):
     await asyncio.to_thread(service.scale, new_num_replicas)
     print(f'Service "{game_title}" updated to have {new_num_replicas} replicas.')
 
-async def get_replica_count(game_title):
+async def get_replica_count_async(game_title):
     client = docker.from_env()
     service = client.services.get(game_title)
     replicas = await asyncio.to_thread(service.attrs['Spec']['Mode']['Replicated']['Replicas'])
