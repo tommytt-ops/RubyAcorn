@@ -79,10 +79,9 @@ start_http_server(8002)
 
 async def main():
 
-    instance_capacity = 100
     predict_max_player_valve = 0
     instance_capacity = 250000
-    docker_instance_capacity = 100
+    docker_instance_capacity = 1000
     loaded_model = xgboost.Booster()
     loaded_model.load_model("./python/reg_model_valve.json")
     data_arr = []
