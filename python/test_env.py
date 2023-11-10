@@ -126,15 +126,25 @@ async def main():
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
                 print("")
 
-        if current_players != 0 and min % 1 == 0:
+        if current_players_all != 0 and min % 5 == 0:
+            # Use asyncio.gather for concurrent operations
+            await asyncio.gather(*[
+                process_game_async(game_name, service_name, current_players[game_name], docker_instance_capacity, player_count_valve)
+                for game_name, service_name in game_service_dict.items()
+            ])
 
-            if current_players_all != 0 and min % 5 == 0:
-                for game_name, service_name in game_service_dict.items():
-                    if math.ceil(current_players[game_name] / docker_instance_capacity) != await get_replica_count_async(service_name) and current_players[game_name] != 0:
-                        print(f"{game_name}: {current_players[game_name]}")
-                        await docker_instance_async(current_players[game_name], docker_instance_capacity, service_name)
-                    await prom_metrics(await get_replica_count(service_name), player_count_valve, game_name)
-        time.sleep(60)
+        await asyncio.sleep(60)
+
+async def process_game_async(game_name, service_name, current_player_count, docker_instance_capacity, player_count_valve):
+    if (
+        math.ceil(current_player_count / docker_instance_capacity) !=
+        await get_replica_count_async(service_name) and current_player_count != 0
+    ):
+        print(f"{game_name}: {current_player_count}")
+        await docker_instance_async(current_player_count, docker_instance_capacity, service_name)
+
+    await prom_metrics(await get_replica_count(service_name), player_count_valve, game_name)
+
 
 
 
