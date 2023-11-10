@@ -117,7 +117,7 @@ async def main():
             print("current players: ",current_players_all)
             print("")
 
-            if predict_max_player_valve != 0:
+            if predict_max_player != 0:
                 desired_instances_to_run = desired_instances(instance_capacity, predict_max_player)
                 current_instances_running = len(server_list("ACTIVE")) -1
                 print(current_players_all)
