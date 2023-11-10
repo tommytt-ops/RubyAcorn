@@ -48,6 +48,6 @@ async def get_replica_count_async(game_title):
     client = docker.from_env()
     service = client.services.get(game_title)
     replicas_value = service.attrs['Spec']['Mode']['Replicated']['Replicas']
-    replicas = await asyncio.to_thread(replicas_value)
+    replicas = replicas_value
     return replicas
 
