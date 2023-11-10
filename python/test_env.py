@@ -88,7 +88,7 @@ async def main():
     data_arr = []
 
     player_count_valve = Gauge("player_count_valve", "player counts to diffrent valve games", ["title"])
-    server_instance_valve = Gauge("player_count_valve", "combined amount of servers running for valve games", ["title"])
+    server_instance_valve = Gauge("server_instance_valve", "combined amount of servers running for valve games", ["title"])
 
     while True:
         current_datetime = datetime.datetime.now()
