@@ -47,5 +47,7 @@ async def docker_instance_async(player_count, instance_capacity, game_title):
 async def get_replica_count_async(game_title):
     client = docker.from_env()
     service = client.services.get(game_title)
-    replicas = await asyncio.to_thread(service.attrs['Spec']['Mode']['Replicated']['Replicas'])
-    return replicas
+    replicas_value = service.attrs['Spec']['Mode']['Replicated']['Replicas']
+    print(replicas_value)
+    replicas = await asyncio.to_thread(replicas_value)
+
