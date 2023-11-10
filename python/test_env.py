@@ -128,7 +128,7 @@ async def main():
 
             if current_players_all != 0 and min % 5 == 0:
                 for game_name, service_name in game_service_dict.items():
-                    if math.ceil(current_players[game_name] / docker_instance_capacity) != await get_replica_count(service_name):
+                    if math.ceil(current_players[game_name] / docker_instance_capacity) != await get_replica_count(service_name) and current_players[game_name] != 0:
                         print(f"{game_name}: {current_players[game_name]}")
                         await docker_instance(current_players[game_name], docker_instance_capacity, service_name)
                     await prom_metrics(await get_replica_count(service_name), player_count_valve, game_name)
