@@ -108,10 +108,7 @@ async def main():
         current_players = await fetch_player_counts(game_names)
         current_players_all = sum(current_players.values())
 
-        print(current_players)
-
-        print(current_players_all)
-        if min % 1 == 1:
+        if min % 1 == 0:
 
             predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
             print(hour)
@@ -134,7 +131,7 @@ async def main():
                 loop.create_task(process_game_async(game_name, service_name, current_players.get(game_name, 0), docker_instance_capacity, player_count_valve))
                 for game_name, service_name in game_service_dict.items()
             ])
-            
+
         await asyncio.sleep(60)
 
 async def process_game_async(game_name, service_name, current_player_count, docker_instance_capacity, player_count_valve):
