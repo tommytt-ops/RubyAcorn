@@ -48,6 +48,17 @@ async def fetch_player_counts(game_names):
     
     return player_count_dict
 
+async def process_game_async(game_name, service_name, current_player_count, docker_instance_capacity, player_count_valve):
+    
+    if (
+         math.ceil(current_player_count / docker_instance_capacity) !=
+        await get_replica_count_async(service_name) and current_player_count != 0
+    ):
+        print(f"{game_name}: {current_player_count}")
+        await docker_instance_async(current_player_count, docker_instance_capacity, service_name)
+
+    replica_count = await get_replica_count_async(service_name)
+    await prom_metrics(replica_count, player_count_valve, game_name)
 
 game_service_dict = {
     "Counter-Strike": "counter_strike", 
@@ -108,7 +119,7 @@ async def main():
         current_players = await fetch_player_counts(game_names)
         current_players_all = sum(current_players.values())
 
-        if min % 1 == 0:
+        if min == 0:
 
             predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
             print(hour)
@@ -134,23 +145,8 @@ async def main():
 
             await asyncio.sleep(60)
 
-async def process_game_async(game_name, service_name, current_player_count, docker_instance_capacity, player_count_valve):
-    try:
-        if (
-            math.ceil(current_player_count / docker_instance_capacity) !=
-            await get_replica_count_async(service_name) and current_player_count != 0
-        ):
-            print(f"{game_name}: {current_player_count}")
-            await docker_instance_async(current_player_count, docker_instance_capacity, service_name)
 
-        replica_count = await get_replica_count_async(service_name)
-        await prom_metrics(replica_count, player_count_valve, game_name)
     
-    except Exception as e:
-        print(f"Error processing {game_name}: {str(e)}")
-        # Handle the exception as needed
-
-
 
 
 
