@@ -1,10 +1,10 @@
-import re
-import requests
 import math
 import xgboost
-import numpy
 import pandas
 from linux_scripts.linux_scripts import start_servers, stop_servers
+import math
+import docker
+import asyncio
 
 
 async def max_player_per_hour(year, month, day, hour, loaded_model, data_arr):
@@ -30,3 +30,22 @@ async def scaler(desired_instance, current_instances):
         await start_servers(desired_instance, current_instances)
     elif desired_instance < current_instances:
         await stop_servers(desired_instance, current_instances)
+
+async def docker_instance(player_count, instance_capacity, game_title):
+    client = docker.from_env()
+
+    # Specify the new number of replicas you want
+    new_num_replicas = math.ceil(player_count / instance_capacity)
+
+    # Get the existing service
+    service = client.services.get(game_title)
+
+    # Update the service with the new number of replicas
+    await asyncio.to_thread(service.scale, new_num_replicas)
+    print(f'Service "{game_title}" updated to have {new_num_replicas} replicas.')
+
+async def get_replica_count(game_title):
+    client = docker.from_env()
+    service = client.services.get(game_title)
+    replicas = await asyncio.to_thread(service.attrs['Spec']['Mode']['Replicated']['Replicas'])
+    return replicas
