@@ -90,7 +90,7 @@ start_http_server(8002)
 
 async def main():
 
-    predict_max_player_valve = 0
+    predict_max_player = 0
     instance_capacity = 250000
     docker_instance_capacity = 1000
     loaded_model = xgboost.Booster()
@@ -137,13 +137,24 @@ async def main():
                 print("")
 
         if current_players_all != 0 and min % 5 == 0:
-            # Use asyncio.gather for concurrent operations
+
+            if (len(server_list("ACTIVE"))-1) * instance_capacity < current_players_all:
+
+                print("need more servers")
+                print(f"{hour}:{min}")
+                print(predict_max_player)
+                print(current_players)
+                print("")
+                desired_instances_to_run = desired_instances(instance_capacity, current_players_all)
+                current_instances_running = len(server_list("ACTIVE")) -1
+                scaler(desired_instances_to_run, current_instances_running)
+
             await asyncio.gather(*[
                 loop.create_task(process_game_async(game_name, service_name, current_players.get(game_name, 0), docker_instance_capacity, player_count_valve))
                 for game_name, service_name in game_service_dict.items()
             ])
 
-            await asyncio.sleep(60)
+            await time.sleep(60)
 
 
     

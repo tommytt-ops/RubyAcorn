@@ -1,4 +1,10 @@
 import math
 
+def pluss(a, b):
+    print(a+b)
 
-print(math.ceil(1 / 1000))
+
+print()
+pluss()
+
+
