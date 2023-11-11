@@ -154,7 +154,7 @@ async def main():
                 for game_name, service_name in game_service_dict.items()
             ])
 
-            await time.sleep(60)
+            time.sleep(60)
 
 
     
