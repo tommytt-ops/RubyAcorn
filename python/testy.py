@@ -19,5 +19,4 @@ loaded_model = xgboost.Booster()
 loaded_model.load_model("./python/reg_model_valve.json")
 data_arr = []
 
-predict_max_player = max_player_per_hour(2023, 11, 16, 16, loaded_model, data_arr)
-print(predict_max_player)
+print(int(len(server_list("ACTIVE")) -1))
