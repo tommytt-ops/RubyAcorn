@@ -148,6 +148,7 @@ async def main():
                 desired_instances_to_run = desired_instances(instance_capacity, current_players_all)
                 current_instances_running = len(server_list("ACTIVE")) -1
                 scaler(desired_instances_to_run, current_instances_running)
+                await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
 
             await asyncio.gather(*[
                 loop.create_task(process_game_async(game_name, service_name, current_players.get(game_name, 0), docker_instance_capacity, player_count_valve))
