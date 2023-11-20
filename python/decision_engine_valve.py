@@ -48,12 +48,10 @@ async def fetch_player_counts(game_names):
         tasks = [prometheus_player_count_fetch_async(game_name, session) for game_name in game_names]
         results = await asyncio.gather(*tasks, return_exceptions=True)
     for game_name, result in zip(game_names, results):
-        if isinstance(result, Exception):
-            print(f"Error fetching player count for {game_name}: {result}")
-            player_count_dict[game_name] = 0  # Handle the case where fetch fails
-        else:
-            player_count_dict[game_name] = result
+        # Use the result if it's an int, otherwise default to 0
+        player_count_dict[game_name] = result if isinstance(result, int) else 0
     return player_count_dict
+
 
 async def process_game_async(game_name, service_name, current_player_count, docker_instance_capacity, player_count_valve):
     
