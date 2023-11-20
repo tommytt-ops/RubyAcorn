@@ -14,38 +14,45 @@ from utilsAsync import get_replica_count_async, docker_instance_async, desired_i
 
 import re
 
-async def prometheus_player_count_fetch_async(game_title):
-    url = "http://10.196.36.11/metrics"  # Replace with the URL you want to post to
-    params = {"key": "value"}  # Replace with your data as needed
+# Helper function to parse the Prometheus metrics
+def parse_prometheus_metrics(content, game_title):
+    lines = content.split("\n")
+    for line in lines:
+        match = re.search(rf'{re.escape(game_title)}{{.*}} (\d+)', line)
+        if match:
+            return int(match.group(1))
+    return 0  # Default to 0 if not found
 
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url, params=params) as response:
+# Function to fetch player count for a specific game
+async def prometheus_player_count_fetch_async(game_title, session):
+    url = "http://10.196.36.11/metrics"
+    try:
+        async with session.get(url) as response:
             if response.status == 200:
                 content = await response.text()
-                lines = content.split("\n")
-                for line in lines:
-                    match = re.search(r'title="([^"]*)".* (\d+)$', line)
-                    if match:
-                        line_game_title, player_count = match.groups()
-                        if line_game_title == game_title:
-                            return player_count
+                player_count = parse_prometheus_metrics(content, game_title)
+                return player_count
             else:
-                print(f"Error: {response.status}")
+                print(f"Error fetching {game_title}: HTTP {response.status}")
+                return None
+    except asyncio.TimeoutError:
+        print(f"Timeout error fetching player count for {game_title}")
+    except aiohttp.ClientError as e:
+        print(f"Client error fetching player count for {game_title}: {e}")
 
-
-
+# Function to fetch player counts for multiple games
 async def fetch_player_counts(game_names):
     player_count_dict = {}
-
-    async with aiohttp.ClientSession() as session:
-        tasks = [prometheus_player_count_fetch_async(game_name) for game_name in game_names]
-        results = await asyncio.gather(*tasks)
-
+    timeout = aiohttp.ClientTimeout(total=60)  # Extend timeout if necessary
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        tasks = [prometheus_player_count_fetch_async(game_name, session) for game_name in game_names]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
     for game_name, result in zip(game_names, results):
-        if result is not None:
-            player_count_dict[game_name] = int(result)
-
-    
+        if isinstance(result, Exception):
+            print(f"Error fetching player count for {game_name}: {result}")
+            player_count_dict[game_name] = 0  # Handle the case where fetch fails
+        else:
+            player_count_dict[game_name] = result
     return player_count_dict
 
 async def process_game_async(game_name, service_name, current_player_count, docker_instance_capacity, player_count_valve):
