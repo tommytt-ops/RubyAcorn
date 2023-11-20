@@ -32,27 +32,23 @@ async def scaler(desired_instance, current_instances):
     elif desired_instance < current_instances:
         await stop_servers(desired_instance, current_instances)
 
-async def docker_instance_async(player_count, instance_capacity, game_title):
+async def get_replica_count_async(game_title):
     try:
-        # Connect to Docker using the aiodocker library
         docker = aiodocker.Docker()
-
-        # Specify the new number of replicas you want
-        new_num_replicas = math.ceil(player_count / instance_capacity)
-
-        # Get the existing service
-        service = await docker.services.get(game_title)
-
-        # Update the service with the new number of replicas
-        await service.update({'Mode': {'Replicated': {'Replicas': new_num_replicas}}})
-        print(f'Service "{game_title}" updated to have {new_num_replicas} replicas.')
-
+        services = await docker.services.list(filters={"name": game_title})
+        if services:
+            # Assuming that the service name is unique and we can take the first match.
+            service = services[0]
+            replicas = service['Spec']['Mode']['Replicated']['Replicas']
+            return replicas
+        else:
+            print(f"No service found with the name {game_title}")
+            return None
     except aiodocker.exceptions.DockerError as e:
-        print(f"An error occurred while updating the service: {e}")
+        print(f"DockerError occurred: {e}")
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        print(f"An unexpected error occurred while fetching the replica count: {e}")
     finally:
-        # Always close the Docker connection when you're done
         await docker.close()
 
 async def docker_instance_async(player_count, instance_capacity, game_title):
