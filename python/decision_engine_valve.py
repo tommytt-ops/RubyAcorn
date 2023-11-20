@@ -151,16 +151,15 @@ async def main():
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
 
             await asyncio.gather(*[
-                loop.create_task(process_game_async(game_name, service_name, current_players.get(game_name, 0), docker_instance_capacity, player_count_valve))
+                process_game_async(game_name, service_name, current_players.get(game_name, 0), docker_instance_capacity, player_count_valve)
                 for game_name, service_name in game_service_dict.items()
             ])
 
-            time.sleep(60)
+            await asyncio.sleep(60)
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    asyncio.run(main())
 
 
 

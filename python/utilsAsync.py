@@ -5,6 +5,7 @@ from linux_scripts.linux_scripts import start_servers, stop_servers
 import math
 import docker
 import asyncio
+import aiodocker
 
 
 async def max_player_per_hour_async(year, month, day, hour, loaded_model, data_arr):
@@ -32,22 +33,35 @@ async def scaler(desired_instance, current_instances):
         await stop_servers(desired_instance, current_instances)
 
 async def docker_instance_async(player_count, instance_capacity, game_title):
-    client = docker.from_env()
+    # Connect to Docker using the aiodocker library
+    docker = aiodocker.Docker()
 
-    # Specify the new number of replicas you want
-    new_num_replicas = math.ceil(player_count / instance_capacity)
+    try:
+        # Specify the new number of replicas you want
+        new_num_replicas = math.ceil(player_count / instance_capacity)
 
-    # Get the existing service
-    service = client.services.get(game_title)
+        # Get the existing service
+        service = await docker.services.get(game_title)
 
-    # Update the service with the new number of replicas
-    await asyncio.to_thread(service.scale, new_num_replicas)
-    print(f'Service "{game_title}" updated to have {new_num_replicas} replicas.')
+        # Update the service with the new number of replicas
+        await service.scale(new_num_replicas)
+        print(f'Service "{game_title}" updated to have {new_num_replicas} replicas.')
+    finally:
+        # Always close the Docker connection when you're done
+        await docker.close()
 
 async def get_replica_count_async(game_title):
-    client = docker.from_env()
-    service = client.services.get(game_title)
-    replicas_value = service.attrs['Spec']['Mode']['Replicated']['Replicas']
-    replicas = replicas_value
-    return replicas
+    # Connect to Docker using the aiodocker library
+    docker = aiodocker.Docker()
+
+    try:
+        # Get the existing service
+        service = await docker.services.get(game_title)
+
+        # Access the service attributes to get the number of replicas
+        replicas = service['Spec']['Mode']['Replicated']['Replicas']
+        return replicas
+    finally:
+        # Always close the Docker connection when you're done
+        await docker.close()
 
