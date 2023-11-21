@@ -100,12 +100,12 @@ async def main():
     docker_instance_capacity = 1000
     loaded_model = xgboost.Booster()
     loaded_model.load_model("./python/reg_model_valve.json")
-    data_arr = []
-
     player_count_valve = Gauge("player_count_valve", "player counts to diffrent valve games", ["title"])
     server_instance_valve = Gauge("server_instance_valve", "combined amount of servers running for valve games", ["title"])
 
     while True:
+
+        data_arr = []
 
         current_datetime = datetime.datetime.now()
         current_time = current_datetime.time()
