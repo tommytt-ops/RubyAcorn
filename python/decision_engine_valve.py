@@ -134,7 +134,6 @@ async def main():
                 current_instances_running = len(server_list("ACTIVE")) -1
                 print(current_players_all)
                 scaler(desired_instances_to_run, current_instances_running)
-                print("predction: ",  desired_instances(predict_max_player))
                 print("given servers: ",  desired_instances(instance_capacity, predict_max_player))
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
                 print("")
