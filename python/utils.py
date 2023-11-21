@@ -18,7 +18,7 @@ def prometheus_player_count_fetch(game_title):
         # Iterate through the lines and filter data for the desired title
         for line in lines:
             if game_title in line:
-                match = re.search(r'title="([^"]*)".* (\d+)$', line)
+                match = re.search(r'\d+$', line)
                 number = match.group()
                 return number
     else:
