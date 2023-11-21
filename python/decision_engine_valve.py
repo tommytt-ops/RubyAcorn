@@ -110,7 +110,7 @@ async def main():
     current_players_all = sum(current_players.values())
 
     while True:
-        
+
         current_datetime = datetime.datetime.now()
         current_time = current_datetime.time()
         formatted_time = current_time.strftime("%H:%M:%S")
@@ -146,7 +146,7 @@ async def main():
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
                 print("")
 
-        if current_players_all != 0 and min % 5 == 0 and predict_max_player != 0:
+        if current_players_all != 0 and min % 5 == 0:
 
             game_names = game_service_dict.keys()
             current_players = await fetch_player_counts(game_names)
