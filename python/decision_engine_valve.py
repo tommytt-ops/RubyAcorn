@@ -123,7 +123,7 @@ async def main():
         game_names = game_service_dict.keys()
         current_players = await fetch_player_counts(game_names)
         current_players_all = sum(current_players.values())
-        print(current_players_all)
+        
 
         if min == 0:
 
@@ -155,7 +155,7 @@ async def main():
                 current_instances_running = len(server_list("ACTIVE")) -1
                 scaler(desired_instances_to_run, current_instances_running)
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
-
+            print(current_players_all)
             await asyncio.gather(*[
                 process_game_async(game_name, service_name, current_players.get(game_name, 0), docker_instance_capacity, player_count_valve)
                 for game_name, service_name in game_service_dict.items()
