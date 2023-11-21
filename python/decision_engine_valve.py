@@ -123,6 +123,7 @@ async def main():
         game_names = game_service_dict.keys()
         current_players = await fetch_player_counts(game_names)
         current_players_all = sum(current_players.values())
+        print(current_players_all)
 
         if min == 0:
 
