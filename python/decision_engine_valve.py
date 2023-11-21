@@ -132,7 +132,6 @@ async def main():
             if predict_max_player != 0:
                 desired_instances_to_run = desired_instances(instance_capacity, predict_max_player)
                 current_instances_running = len(server_list("ACTIVE")) -1
-                print(current_players_all)
                 scaler(desired_instances_to_run, current_instances_running)
                 print("given servers: ",  desired_instances(instance_capacity, predict_max_player))
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
@@ -151,7 +150,7 @@ async def main():
                 current_instances_running = len(server_list("ACTIVE")) -1
                 scaler(desired_instances_to_run, current_instances_running)
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
-            print(current_players_all)
+
             await asyncio.gather(*[
                 process_game_async(game_name, service_name, current_players.get(game_name, 0), docker_instance_capacity, player_count_valve)
                 for game_name, service_name in game_service_dict.items()
