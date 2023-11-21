@@ -57,9 +57,15 @@ async def docker_instance_async(player_count, instance_capacity, game_title):
         print(f"No service found with the name {game_title}")
         return
 
+    print()
     service = services[0]
     service_id = service['ID']
     version = service['Version']['Index']
+
+    print(f"Service ID: {service_id}")
+    print(f"Version: {version}")
+    print(f"Service Spec: {service_spec}")
+
 
     # Update the service with the new number of replicas
     # The service spec needs to be obtained and modified, then passed back to the update method.

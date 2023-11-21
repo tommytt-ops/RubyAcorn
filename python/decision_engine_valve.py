@@ -125,6 +125,10 @@ async def main():
         min = int(time_parts[1])
         sec = int(time_parts[2])
 
+        game_names = game_service_dict.keys()
+        current_players = await fetch_player_counts(game_names)
+        current_players_all = sum(current_players.values())
+
         if min == 0:
 
             game_names = game_service_dict.keys()
@@ -132,10 +136,6 @@ async def main():
             current_players_all = sum(current_players.values())
 
             predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
-            print(hour)
-            print("predicted: ", predict_max_player)
-            print("current players: ",current_players_all)
-            print("")
 
             if predict_max_player != 0:
                 desired_instances_to_run = desired_instances(instance_capacity, predict_max_player)
@@ -147,10 +147,6 @@ async def main():
                 print("")
 
         if current_players_all != 0 and min % 5 == 0:
-
-            game_names = game_service_dict.keys()
-            current_players = await fetch_player_counts(game_names)
-            current_players_all = sum(current_players.values())
 
             if (len(server_list("ACTIVE"))-1) * instance_capacity < current_players_all and predict_max_player != 0:
 
