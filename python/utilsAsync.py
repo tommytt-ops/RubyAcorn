@@ -33,53 +33,40 @@ async def scaler(desired_instance, current_instances):
         await stop_servers(desired_instance, current_instances)
 
 async def get_replica_count_async(game_title):
-    try:
-        docker = aiodocker.Docker()
-        services = await docker.services.list(filters={"name": game_title})
-        if services:
-            # Assuming that the service name is unique and we can take the first match.
-            service = services[0]
-            replicas = service['Spec']['Mode']['Replicated']['Replicas']
-            return replicas
-        else:
-            print(f"No service found with the name {game_title}")
-            return None
-    except aiodocker.exceptions.DockerError as e:
-        print(f"DockerError occurred: {e}")
-    except Exception as e:
-        print(f"An unexpected error occurred while fetching the replica count: {e}")
-    finally:
-        await docker.close()
+        
+    docker = aiodocker.Docker()
+    services = await docker.services.list(filters={"name": game_title})
+    if services:
+        # Assuming that the service name is unique and we can take the first match.
+        service = services[0]
+        replicas = service['Spec']['Mode']['Replicated']['Replicas']
+        return replicas
+      
+    await docker.close()
 
 async def docker_instance_async(player_count, instance_capacity, game_title):
-    try:
-        docker = aiodocker.Docker()
+    
+    docker = aiodocker.Docker()
 
-        # Specify the new number of replicas you want
-        new_num_replicas = math.ceil(player_count / instance_capacity)
+    # Specify the new number of replicas you want
+    new_num_replicas = math.ceil(player_count / instance_capacity)
 
-        # List services and find the one we want to update
-        services = await docker.services.list(filters={"name": game_title})
-        if not services:
-            print(f"No service found with the name {game_title}")
-            return
+     # List services and find the one we want to update
+    services = await docker.services.list(filters={"name": game_title})
+    if not services:
+        print(f"No service found with the name {game_title}")
+        return
 
-        service = services[0]
-        service_id = service['ID']
-        version = service['Version']['Index']
+    service = services[0]
+    service_id = service['ID']
+    version = service['Version']['Index']
 
-        # Update the service with the new number of replicas
-        # The service spec needs to be obtained and modified, then passed back to the update method.
-        service_spec = service['Spec']
-        service_spec['Mode']['Replicated']['Replicas'] = new_num_replicas
+    # Update the service with the new number of replicas
+    # The service spec needs to be obtained and modified, then passed back to the update method.
+    service_spec = service['Spec']
+    service_spec['Mode']['Replicated']['Replicas'] = new_num_replicas
 
-        await docker.services.update(service_id, version, service_spec)
-        print(f'Service "{game_title}" updated to have {new_num_replicas} replicas.')
-
-    except aiodocker.exceptions.DockerError as e:
-        print(f"An error occurred while updating the service: {e}")
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-    finally:
-        await docker.close()
+    await docker.services.update(service_id, version, service_spec)
+    print(f'Service "{game_title}" updated to have {new_num_replicas} replicas.')
+    await docker.close()
 

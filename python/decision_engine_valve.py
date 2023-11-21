@@ -105,7 +105,12 @@ async def main():
     player_count_valve = Gauge("player_count_valve", "player counts to diffrent valve games", ["title"])
     server_instance_valve = Gauge("server_instance_valve", "combined amount of servers running for valve games", ["title"])
 
+    game_names = game_service_dict.keys()
+    current_players = await fetch_player_counts(game_names)
+    current_players_all = sum(current_players.values())
+
     while True:
+        
         current_datetime = datetime.datetime.now()
         current_time = current_datetime.time()
         formatted_time = current_time.strftime("%H:%M:%S")
@@ -120,12 +125,11 @@ async def main():
         min = int(time_parts[1])
         sec = int(time_parts[2])
 
-        game_names = game_service_dict.keys()
-        current_players = await fetch_player_counts(game_names)
-        current_players_all = sum(current_players.values())
-        
-
         if min == 0:
+
+            game_names = game_service_dict.keys()
+            current_players = await fetch_player_counts(game_names)
+            current_players_all = sum(current_players.values())
 
             predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
             print(hour)
@@ -143,6 +147,10 @@ async def main():
                 print("")
 
         if current_players_all != 0 and min % 5 == 0 and predict_max_player != 0:
+
+            game_names = game_service_dict.keys()
+            current_players = await fetch_player_counts(game_names)
+            current_players_all = sum(current_players.values())
 
             if (len(server_list("ACTIVE"))-1) * instance_capacity < current_players_all and predict_max_player != 0:
 
