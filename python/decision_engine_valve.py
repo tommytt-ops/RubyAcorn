@@ -11,7 +11,7 @@ import asyncio
 import aiohttp
 from linux_scripts.linux_scripts import start_servers, stop_servers
 from utilsAsync import get_replica_count_async, docker_instance_async, desired_instances_async
-
+import tracemalloc 
 import re
 
 # Function to fetch player count for a specific game
@@ -37,7 +37,7 @@ async def prometheus_player_count_fetch_async(game_title):
                 return 0  # Return 0 in case of HTTP errors
 
 
-
+#GPT code
 async def fetch_player_counts(game_names):
     player_count_dict = {}
 
@@ -52,7 +52,7 @@ async def fetch_player_counts(game_names):
     
     return player_count_dict
 
-
+#GPT code
 async def process_game_async(game_name, service_name, current_player_count, docker_instance_capacity, player_count_valve):
     
     if (
@@ -102,6 +102,7 @@ async def main():
     loaded_model.load_model("./python/reg_model_valve.json")
     player_count_valve = Gauge("player_count_valve", "player counts to diffrent valve games", ["title"])
     server_instance_valve = Gauge("server_instance_valve", "combined amount of servers running for valve games", ["title"])
+    current_players_all= 0
 
     while True:
 
@@ -121,9 +122,11 @@ async def main():
         min = int(time_parts[1])
         sec = int(time_parts[2])
 
-        game_names = game_service_dict.keys()
-        current_players = await fetch_player_counts(game_names)
-        current_players_all = sum(current_players.values())
+        if sec % 30 == 0:
+            
+            game_names = game_service_dict.keys()
+            current_players = await fetch_player_counts(game_names)
+            current_players_all = sum(current_players.values())
 
         if min == 0:
 
@@ -151,12 +154,17 @@ async def main():
                 scaler(desired_instances_to_run, current_instances_running)
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
 
+            #GPT code
             await asyncio.gather(*[
                 process_game_async(game_name, service_name, current_players.get(game_name, 0), docker_instance_capacity, player_count_valve)
                 for game_name, service_name in game_service_dict.items()
             ])
 
+            
+            
+                
             await asyncio.sleep(60)
+
 
 
 if __name__ == "__main__":
