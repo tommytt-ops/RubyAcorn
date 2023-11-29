@@ -2,17 +2,15 @@ import docker
 
 client = docker.from_env()
 
-# Define the container configurations
 container_config = {
-    'image': 'nginx',  # Replace with the desired Docker image
+    'image': 'nginx',  
 }
 
-# Define service options
 
 def service_options(name):
     service_options = {
-        'name': name,  # Specify the service name
-        'mode': docker.types.ServiceMode('replicated', replicas=3),  # Set the service mode and number of replicas
+        'name': name,  
+        'mode': docker.types.ServiceMode('replicated', replicas=3),  
         'constraints': ['node.role != manager'],
     }
 

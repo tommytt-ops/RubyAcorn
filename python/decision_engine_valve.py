@@ -14,7 +14,7 @@ from utilsAsync import get_replica_count_async, docker_instance_async, desired_i
 import tracemalloc 
 import re
 
-# Function to fetch player count for a specific game
+
 async def prometheus_player_count_fetch_async(game_title):
     url = 'http://10.196.36.11/metrics'
 
@@ -24,17 +24,16 @@ async def prometheus_player_count_fetch_async(game_title):
                 content = await response.text()
                 lines = content.split('\n')
                 for line in lines:
-                    # Check if the line contains the game title
                     if f'title="{game_title}"' in line:
-                        # Extract the last number from the line
                         match = re.search(r'(\d+)$', line)
                         if match:
-                            number = match.group(1)  # Get the matched number
-                            return int(number)  # Convert to int for consistency
-                return 0  # Return 0 if not found
+                            number = match.group(1)  
+                            return int(number)  
+                return 0  
             else:
+                
                 print(f'Error fetching {game_title}: HTTP {response.status}')
-                return 0  # Return 0 in case of HTTP errors
+                return 0  
 
 
 #GPT code
@@ -140,7 +139,7 @@ async def main():
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
                 print("")
 
-        if current_players_all != 0 and min % 5 == 0:
+        if current_players_all != 0 and min % 5 == 0 and min != 0:
 
             if (len(server_list("ACTIVE"))-1) * instance_capacity < current_players_all and predict_max_player != 0:
 

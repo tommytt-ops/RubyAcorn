@@ -3,7 +3,7 @@ import datetime
 import time
 import xgboost
 from docker_tester import docker_instance, get_replica_count
-from Utilstils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
+from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
 from prom_metrics_ import prom_metrics
 
@@ -85,20 +85,7 @@ while True:
 
             print("scaling docker instances")
             docker_instance(int(current_players), docker_instance_capacity, "PLAYERUNKNOWNS_BATTLEGROUNDS")
-    
 
-
-        #Doesnt fit the goal of the algorithm 
-        #elif (len(server_list("ACTIVE"))-2) * instance_capacity > int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0:
-            
-            #print("need fewer servers")
-            #print(f"{hour}:{min}")
-            #print(predict_max_player)
-            #print(current_players)
-            #print("")
-            #desired_instances_to_run = desired_instances(instance_capacity, int(current_players))
-            #current_instances_running = len(server_list("ACTIVE")) -1
-            #scaler(desired_instances_to_run, current_instances_running)
     
     
         

@@ -34,14 +34,8 @@ async def scaler(desired_instance, current_instances):
 
 async def docker_instance_async(player_count, instance_capacity, game_title):
     client = docker.from_env()
-
-    # Specify the new number of replicas you want
     new_num_replicas = math.ceil(player_count / instance_capacity)
-
-    # Get the existing service
     service = client.services.get(game_title)
-
-    # Update the service with the new number of replicas
     await asyncio.to_thread(service.scale, new_num_replicas)
     print(f'Service "{game_title}" updated to have {new_num_replicas} replicas.')
 
