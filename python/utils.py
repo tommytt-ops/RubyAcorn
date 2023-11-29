@@ -7,13 +7,15 @@ from linux_scripts.linux_scripts import start_servers, stop_servers
 
 def prometheus_player_count_fetch(game_title):
  
-    url = 'http://10.196.36.11/metrics'  
-    data = {'key': 'value'}  
+    url = 'http://10.196.36.11/metrics'  # Replace with the URL you want to post to
+    data = {'key': 'value'}  # Replace with your data
     response = requests.get(url, data=data)
 
     if response.status_code == 200:
-
+        # Split the response content into lines
         lines = response.text.split('\n')
+    
+        # Iterate through the lines and filter data for the desired title
         for line in lines:
             if game_title in line:
                 match = re.search(r'\d+$', line)
@@ -38,6 +40,7 @@ def max_player_per_hour(year, month, day, hour, loaded_model, data_arr):
 
 def desired_instances(instance_capacity, predicted_max_hour_player_count):
 
+
     player_count = predicted_max_hour_player_count / instance_capacity
     desired_isinstance = max(math.ceil(player_count),1)
 
@@ -48,9 +51,11 @@ def desired_instances(instance_capacity, predicted_max_hour_player_count):
 def scaler(desiered_instance, current_instances):
     
     if desiered_instance > current_instances:
+
         start_servers(desiered_instance, current_instances)
 
     elif desiered_instance < current_instances:
+
         stop_servers(desiered_instance, current_instances)
     
 
