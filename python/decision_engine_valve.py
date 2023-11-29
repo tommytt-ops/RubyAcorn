@@ -139,9 +139,9 @@ async def main():
                 await prom_metrics(len(server_list("ACTIVE")) -1, server_instance_valve, "Server instances")
                 print("")
 
-        if current_players_all != 0 and min % 5 == 0 and min != 0:
+        if current_players_all != 0 and min % 5 == 0:
 
-            if (len(server_list("ACTIVE"))-1) * instance_capacity < current_players_all and predict_max_player != 0:
+            if (len(server_list("ACTIVE"))-1) * instance_capacity < current_players_all and predict_max_player != 0 and min != 0:
 
                 print("need more servers")
                 print(f"{hour}:{min}")
