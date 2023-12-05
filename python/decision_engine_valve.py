@@ -96,7 +96,7 @@ async def main():
 
     predict_max_player = 0
     instance_capacity = 250000
-    docker_instance_capacity = 1000
+    docker_instance_capacity = 10000
     loaded_model = xgboost.Booster()
     loaded_model.load_model("./python/reg_model_valve.json")
     player_count_valve = Gauge("player_count_valve", "player counts to diffrent valve games", ["title"])
