@@ -11,7 +11,6 @@ import asyncio
 import aiohttp
 from linux_scripts.linux_scripts import start_servers, stop_servers
 from utilsAsync import get_replica_count_async, docker_instance_async, desired_instances_async
-import tracemalloc 
 import re
 
 
