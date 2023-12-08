@@ -2,7 +2,7 @@ from prometheus_client import start_http_server, generate_latest, REGISTRY, Gaug
 import datetime
 import time
 import xgboost
-from docker_tester import docker_instance, get_replica_count
+from docker import docker_instance, get_replica_count
 from Utils import prometheus_player_count_fetch, max_player_per_hour, desired_instances, scaler
 from linux_scripts.linux_scripts import server_list
 from prom_metrics_ import prom_metrics
@@ -51,37 +51,14 @@ async def main():
 
             if predict_max_player != 0:
 
-                desired_instances_to_run = desired_instances(instance_capacity, predict_max_player)
-                current_instances_running = len(server_list("ACTIVE")) -1
-                print(desired_instances_to_run)
-                print(current_players)
-                scaler(desired_instances_to_run, current_instances_running)
-                print("given servers: ",  desired_instances(instance_capacity, predict_max_player))
                 docker_instance(predict_max_player, docker_instance_capacity, "PLAYERUNKNOWNS_BATTLEGROUNDS")
+                print(get_replica_count("PLAYERUNKNOWNS_BATTLEGROUNDS"))
                 print("")
 
         if min % 5 == 0:
-
-            running_server = len(server_list("ACTIVE"))-1
-            await prom_metrics(running_server, antall_server_metric_prom, "PLAYERUNKNOWNS BATTLEGROUNDS")
+     
             running_replicas = get_replica_count("PLAYERUNKNOWNS_BATTLEGROUNDS")
             await prom_metrics(running_replicas, antall_replica_metric_prom, "PLAYERUNKNOWNS BATTLEGROUNDS")
-
-
-        if current_players is not None:
-    
-            if (len(server_list("ACTIVE"))-1) * instance_capacity < int(current_players) and predict_max_player != 0 and min != 0 and min % 5 == 0 and min != 5:
-
-                print("need more servers")
-                print(f"{hour}:{min}")
-                print(predict_max_player)
-                print(current_players)
-                print("")
-                docker_instance(int(current_players), docker_instance_capacity, "PLAYERUNKNOWNS_BATTLEGROUNDS")
-                desired_instances_to_run = desired_instances(instance_capacity, int(current_players))
-                current_instances_running = len(server_list("ACTIVE")) -1
-                scaler(desired_instances_to_run, current_instances_running)
-                time.sleep(60)
 
             if predict_max_player != 0 and int(current_players) > int(get_replica_count("PLAYERUNKNOWNS_BATTLEGROUNDS")) * docker_instance_capacity:
 
