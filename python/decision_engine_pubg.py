@@ -11,11 +11,9 @@ import asyncio
 async def main():
     loaded_model = xgboost.Booster()
     loaded_model.load_model("./python/reg_model.json")
-    instance_capacity = 500000
+    
     docker_instance_capacity = 21500
     predict_max_player = 0
-
-    antall_server_metric_prom = Gauge('antall_server_pubg', 'Description of antall_server', ['title'])
     antall_replica_metric_prom = Gauge('antall_replica_pubg', 'Description of antall_replica', ['title'])
 
     start_http_server(8001)
@@ -41,7 +39,7 @@ async def main():
     
         
 
-        if  min % 1 == 0:
+        if  min == 0:
 
             predict_max_player = max_player_per_hour(year, month, day, hour, loaded_model, data_arr)
             print(hour)
@@ -55,7 +53,7 @@ async def main():
                 print(get_replica_count("PLAYERUNKNOWNS_BATTLEGROUNDS"))
                 print("")
 
-        if min % 5 == 0:
+        if min % 5 == 0 and predict_max_player != 0:
      
             running_replicas = get_replica_count("PLAYERUNKNOWNS_BATTLEGROUNDS")
             await prom_metrics(running_replicas, antall_replica_metric_prom, "PLAYERUNKNOWNS BATTLEGROUNDS")
