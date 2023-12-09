@@ -21,7 +21,6 @@ async def main():
     while True:
 
         data_arr = []
-        current_players = prometheus_player_count_fetch("PLAYERUNKNOWNS BATTLEGROUNDS")
 
         current_datetime = datetime.datetime.now()
         current_time = current_datetime.time()
@@ -36,7 +35,9 @@ async def main():
         hour = int(time_parts[0])
         min = int(time_parts[1])
         sec = int(time_parts[2])
-    
+
+        if sec % 30 == 0:
+            current_players = prometheus_player_count_fetch("PLAYERUNKNOWNS BATTLEGROUNDS")
         
 
         if  min == 0:
